@@ -22,10 +22,16 @@ public class Category {
     ,inverseJoinColumns=@JoinColumn(name="item_id"))
     private List<Item> items = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="parent_id") //자식은 하나의 부모를 가진다.
     private Category parent;
 
     @OneToMany(mappedBy = "parent") //부모는 여러 자식을 가질 수 있다.
     private List<Category> child = new ArrayList<>();
+
+    //연관관계 편의 메서드
+    public void addChildCategory(Category child) {
+        this.child.add(child);
+        child.setParent(this);
+    }
 }

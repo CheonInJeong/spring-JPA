@@ -19,4 +19,5 @@ public class Member {
     //주인의 memeber 필드에 의해 매핑이됨. 읽기전용. 여기에 값을 셋팅해도 값이 변경 되지 않음. orders 테이블의 member의 값을 변경 해야 변경이 됨.
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
+
 }
