@@ -1,0 +1,59 @@
+package com.example.jpa.service;
+
+import com.example.jpa.domain.Delivery;
+import com.example.jpa.domain.Member;
+import com.example.jpa.domain.Order;
+import com.example.jpa.domain.OrderItem;
+import com.example.jpa.domain.item.Item;
+import com.example.jpa.repository.ItemRepository;
+import com.example.jpa.repository.MemberRepository;
+import com.example.jpa.repository.OrderRepository;
+import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class OrderService {
+    private final OrderRepository orderRepository;
+    private final MemberRepository memberRepository;
+    private final ItemRepository itemRepository;
+    /**
+     * 주문
+     */
+    public Long order(Long memberId, Long itemId, int count) {
+        //엔티티 조회
+        Member member = memberRepository.findOne(memberId);
+        Item item = itemRepository.findOne(itemId);
+        //배송정보 생성
+        Delivery delivery = new Delivery();
+        delivery.setAddress(member.getAddress());
+
+        //주문 상품 생성
+        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
+
+        Order order = Order.createOrder(member, delivery, orderItem);
+        //주문저장
+        orderRepository.save(order);
+        return order.getId();
+
+
+    }
+
+    /**
+     * 주문 취소
+     */
+    @Transactional
+    public void cancelOrder(Long orderId) {
+        //주문 엔티티 조회
+       Order order =  orderRepository.findOne(orderId);
+       //주문 취소
+       order.cancel();
+    }
+    //검색
+//    public List<Order> findOrders(OrderSearch orderSearch) {
+//        return orderRepository.findAll(orderSearch);
+//    }
+}
