@@ -8,10 +8,12 @@ import com.example.jpa.domain.item.Item;
 import com.example.jpa.repository.ItemRepository;
 import com.example.jpa.repository.MemberRepository;
 import com.example.jpa.repository.OrderRepository;
+import com.example.jpa.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +40,6 @@ public class OrderService {
         //주문저장
         orderRepository.save(order);
         return order.getId();
-
-
     }
 
     /**
@@ -52,8 +52,7 @@ public class OrderService {
        //주문 취소
        order.cancel();
     }
-    //검색
-//    public List<Order> findOrders(OrderSearch orderSearch) {
-//        return orderRepository.findAll(orderSearch);
-//    }
+    public List<Order> findOrders(OrderSearch orderSearch) {
+        return orderRepository.findAllByCriteria(orderSearch);
+    }
 }

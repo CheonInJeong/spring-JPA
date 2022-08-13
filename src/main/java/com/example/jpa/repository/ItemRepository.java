@@ -1,5 +1,6 @@
 package com.example.jpa.repository;
 
+import com.example.jpa.domain.item.Book;
 import com.example.jpa.domain.item.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

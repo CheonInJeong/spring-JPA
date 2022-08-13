@@ -1,13 +1,12 @@
 package com.example.jpa.service;
 
-import com.example.jpa.domain.*;
+import com.example.jpa.domain.item.Book;
 import com.example.jpa.domain.item.Item;
 import com.example.jpa.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,9 +15,18 @@ import java.util.List;
 public class ItemService {
     private final ItemRepository itemRepository;
 
+    //merge
     @Transactional
     public void saveItem(Item item){
         itemRepository.save(item);
+    }
+    //변경감지
+    @Transactional
+    public void updateItem(Long itemId, Book param) {
+        Item findItem = itemRepository.findOne(itemId);
+        findItem.setPrice(param.getPrice());
+        findItem.setName(param.getName());
+        findItem.setStockQuantity(param.getStockQuantity());
     }
 
     public List<Item> findItems() {
