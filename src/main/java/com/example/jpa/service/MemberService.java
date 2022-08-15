@@ -28,8 +28,6 @@ public class MemberService {
 //        this.memberRepository = memberRepository;
 //    }
 
-
-
     /**
      * 회원 가입
      */
@@ -66,12 +64,12 @@ public class MemberService {
      * @return
      */
     public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
+        return memberRepository.findById(memberId).get();
 
     }
     @Transactional
     public void update(Long id, String name) {
-        Member member = memberRepository.findOne(id);
+        Member member = memberRepository.findById(id).get();
         member.setName(name);
     }
 }
