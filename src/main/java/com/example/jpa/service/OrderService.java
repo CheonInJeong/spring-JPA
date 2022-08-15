@@ -53,6 +53,6 @@ public class OrderService {
        order.cancel();
     }
     public List<Order> findOrders(OrderSearch orderSearch) {
-        return orderRepository.findAllByCriteria(orderSearch);
+        return orderRepository.findAllByString(orderSearch);
     }
 }
